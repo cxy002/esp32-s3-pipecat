@@ -77,21 +77,7 @@ static void screen_task(void *pvParameter) {
 }
 
 void pipecat_init_screen() {
-  bsp_display_start();
-
-  bsp_display_backlight_on();
-
-  bsp_display_lock(0);
-
-  screen = lv_scr_act();
-
-  init_styles();
-
-  log_container = create_scrollable_log(screen);
-
-  xTaskCreatePinnedToCore(screen_task, "Screen Task", 8192, NULL, 1, NULL, 1);
-
-  ESP_LOGI(LOG_TAG, "Display initialized");
+  ESP_LOGW(LOG_TAG, "Display disabled for custom breadboard hardware");
 }
 
 void pipecat_screen_system_log(const char *text) {
@@ -113,6 +99,7 @@ void pipecat_screen_new_log() {
 
 void pipecat_screen_log(const char *text) {
   if (!log_container) {
+    ESP_LOGI(LOG_TAG, "%s", text);
     return;
   }
 
